@@ -31,25 +31,25 @@ module.exports = {
             if (interaction.member.roles.cache.has(Configs.LGDEV_ROLEID)) {
                 const openservers = await getEntry("OpenServers", 123); 
                 if (openservers >= 1) {
-                  const username = interaction.user.username
-                  const userid = interaction.user.id
-                  const messageToSend = interaction.options.get("message").value
-                  const topicToSend = interaction.options.get("topic").value
+                    const username = interaction.user.username
+                    const userid = interaction.user.id
+                    const messageToSend = interaction.options.get("message").value
+                    const topicToSend = interaction.options.get("topic").value
 
-                  const MsgResponds = await postMessage.MessageSend(messageToSend, topicToSend)
-                  if (MsgResponds != 200) {
-                    interaction.reply({
-                      content: 'There was an error! It has been logged. Please DM M23__ and notify them of the issue!',
-                      ephemeral: true
-                    });
-                  } else {
-                    interaction.reply({
-                      content: 'Message sent!',
-                      ephemeral: false 
-                    });
-                  }
+                    const MsgResponds = await postMessage.MessageSend(messageToSend, topicToSend)
+                    if (MsgResponds != 200) {
+                        interaction.reply({
+                          content: 'There was an error! It has been logged. Please DM M23__ and notify them of the issue!',
+                          ephemeral: true
+                        });
+                    } else {
+                        interaction.reply({
+                          content: 'Message sent!',
+                          ephemeral: false 
+                        });
+                    }
 
-                  // Logging
+                    // Logging
                     const embed = new EmbedBuilder()
                     .setTitle("LG Manager Log: Command Executed")
                     .setColor("#fabe00")
@@ -67,12 +67,12 @@ module.exports = {
                     ephemeral: true
                   });
                 }
-              } else {
-                interaction.reply({
-                  content: 'You dont have permission to run this command!',
-                  ephemeral: true
-                });
-              }
+            } else {
+              interaction.reply({
+                content: 'You dont have permission to run this command!',
+                ephemeral: true
+              });
+            }
         } catch (error) {
             log(error);
             interaction.reply({

@@ -33,6 +33,8 @@ module.exports = {
     callback: async (client, interaction) => {
         try {
             if (interaction.member.roles.cache.has(Configs.LGDEV_ROLEID)) {
+                const openservers = await getEntry("OpenServers", 123);
+                if (openservers >= 1) {
                     const username = interaction.user.username
                     const userid = interaction.user.id
                     const mode = interaction.options.get("mode").value
@@ -51,6 +53,12 @@ module.exports = {
                         )
                     const channel = client.channels.cache.get(Configs.LOG_CHANNEL);
                     channel.send({ embeds: [embed] });
+                } else {
+                    interaction.reply({
+                      content: 'No Server is open!',
+                      ephemeral: true
+                    });
+                }
             } else {
                 interaction.reply({
                     content: 'You dont have permission to run this command!',

@@ -29,32 +29,40 @@ module.exports = {
     callback: async (client, interaction) => {
         try {
             if (interaction.member.roles.cache.has(Configs.LGDEV_ROLEID)) {
-                  const username = interaction.user.username
-                  const userid = interaction.user.id
-                  const OpType = interaction.options.get("operation_type").value
-                  const Parameter = interaction.options.get("parameter").value
-                  
+                const openservers = await getEntry("OpenServers", 123);
+                if (openservers >= 1) {
+                    const username = interaction.user.username
+                    const userid = interaction.user.id
+                    const OpType = interaction.options.get("operation_type").value
+                    const Parameter = interaction.options.get("parameter").value
+                    
 
-                  await rmsp(interaction, OpType, Parameter)
+                    await rmsp(interaction, OpType, Parameter)
 
-                  // Logging
-                    const embed = new EmbedBuilder()
-                    .setTitle("LG Manager Log: Command Executed")
-                    .setColor("#fabe00")
-                    .setDescription("**Command:** servermessage")
-                    .setTimestamp()
-                    .addFields(
-                        { name: "Options", value: `**Message:** ${messageToSend}\n**Topic:** ${topicToSend}`, inline: false },
-                        { name: "Requestor", value: `**Username:** ${username}\n**UserId:** ${userid}`, inline: false },
-                    )
-                    const channel = client.channels.cache.get(Configs.LOG_CHANNEL);
-                    channel.send({ embeds: [embed] });
-              } else {
-                interaction.reply({
-                  content: 'You dont have permission to run this command!',
-                  ephemeral: true
-                });
-              }
+                    // Logging
+                      const embed = new EmbedBuilder()
+                      .setTitle("LG Manager Log: Command Executed")
+                      .setColor("#fabe00")
+                      .setDescription("**Command:** servermessage")
+                      .setTimestamp()
+                      .addFields(
+                          { name: "Options", value: `**Message:** ${messageToSend}\n**Topic:** ${topicToSend}`, inline: false },
+                          { name: "Requestor", value: `**Username:** ${username}\n**UserId:** ${userid}`, inline: false },
+                      )
+                      const channel = client.channels.cache.get(Configs.LOG_CHANNEL);
+                      channel.send({ embeds: [embed] });
+                } else {
+                  interaction.reply({
+                    content: 'No Server is open!',
+                    ephemeral: true
+                  });
+                }
+            } else {
+              interaction.reply({
+                content: 'You dont have permission to run this command!',
+                ephemeral: true
+              });
+            }
         } catch (error) {
             log(error);
             interaction.reply({
